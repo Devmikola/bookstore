@@ -14,7 +14,8 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'date')->widget(DatePicker::classname(), ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control']]) ?>
+    <?= $form->field($model, 'date')->widget(DatePicker::classname(),
+        ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeYear' => true]]) ?>
 
     <?php echo $form->field($model, 'author_id')->dropdownList(
         ArrayHelper::map(Author::find()->asArray()->all(),

@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\models\Book;
+use app\models\SearchBookForm;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 class BookController extends \yii\web\Controller
 {
@@ -44,7 +47,43 @@ class BookController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $search_form = new SearchBookForm();
+
+        if($search_form->load(Yii::$app->request->post()) && $search_form->validate())
+        {
+            $query = Book::find();
+            if($search_form->author_id) {
+                $query->where(['author_id' => $search_form->author_id]);
+                if($search_form->name) { $query->andWhere('name like :name', ['name' => '%'.$search_form->name.'%']); }
+
+                if($search_form->date_from && $search_form->date_before)
+                {
+                    $query->andWhere('date between :date_from and :date_before',['date_from' => $search_form->date_from,
+                        'date_before' => $search_form->date_before]);
+                } else {
+                    if($search_form->date_from)
+                    {
+                        $query->andWhere('date >= :date_from',['date_from' => $search_form->date_from]);
+                    }
+                    if($search_form->date_before)
+                    {
+                        $query->andWhere('date <= :date_before',['date_from' => $search_form->date_before]);
+                    }
+                }
+            }
+
+        } else {
+            $query = Book::find();
+        }
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+        return $this->render('index', ['model' => $search_form, 'dataProvider' => $dataProvider]);
     }
 
     public function actionView()

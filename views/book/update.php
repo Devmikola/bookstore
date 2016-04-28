@@ -8,9 +8,9 @@ use yii\helpers\Html;
 $this->title = "Обновить книгу \"{$model->name}\"" ;
 $this->params['breadcrumbs'][] = ['label' => 'Book', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактирование';
 ?>
-<div class="post-update">
+<div class="book-update">
 
     <h2><?= Html::encode($this->title) ?></h2>
 
