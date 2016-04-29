@@ -10,7 +10,11 @@ use yii\jui\DatePicker;
 
 <div class="book-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+    <?php if($model->preview): ?>
+        <?= Html::img($model->preview, ['width' => '200px', 'height' => "200px",'data-lightbox' => 'test12313']) ?>
+    <?php endif; ?>
 
     <?= $form->field($model, 'name') ?>
 
@@ -27,11 +31,11 @@ use yii\jui\DatePicker;
         ['prompt' => 'Выберете автора']
     );?>
 
-    <?= $form->field($model, 'preview') ?>
+    <?= $form->field($model, 'imageFile')->fileInput() ?>
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить изменения', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

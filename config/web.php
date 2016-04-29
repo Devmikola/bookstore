@@ -54,6 +54,17 @@ $config = [
 
             ),
         ],
+        's3bucket' => [
+            'class' => \frostealth\yii2\aws\s3\Storage::className(),
+            'region' => 'us-west-2',
+            'credentials' => [ // Aws\Credentials\CredentialsInterface|array|callable
+
+            ],
+            'bucket' => 'bookstoreyii2',
+//            'cdnHostname' => 'http://example.cloudfront.net',
+            'defaultAcl' => \frostealth\yii2\aws\s3\Storage::ACL_PUBLIC_READ,
+//            'debug' => true, // bool|array
+        ],
     ],
     'params' => $params,
 ];

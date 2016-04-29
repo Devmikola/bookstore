@@ -23,7 +23,6 @@ class SearchBookForm extends Model
     public function rules()
     {
         return [
-//            ['author_id', 'required', 'message' => 'Поле "{attribute}" не заполнено.'],
             [['author_id', 'name', 'date_from', 'date_before'], 'safe']
         ];
     }

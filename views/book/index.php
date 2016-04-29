@@ -1,8 +1,6 @@
 <?php
 
-use app\models\Book;
 use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -11,7 +9,7 @@ use yii\jui\DatePicker;
 
 ?>
 
-    <h1>Книги</h1>
+<h1>Книги</h1>
 
 <?= Html::a('Добавить книгу', ['create'], ['class' => 'btn btn-success']) ?>
 
@@ -54,19 +52,17 @@ use yii\jui\DatePicker;
 echo GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
         ['label' => 'ID', 'attribute' => 'id'],
         ['label' => 'Название', 'attribute' => 'name'],
-//        ['label' => 'Код инвайта', 'attribute' => 'preview'],
-        ['label' => 'Автор', 'value' => function ($data) {
-            return $data->author->firstname . ' ' . $data->author->lastname;
+        ['label' => 'Обложка книги', 'format' => 'raw', 'attribute' => 'preview', 'value' => function($data){
+            return $data->preview ? Html::img($data->preview, ['width' => '100px', 'data-lightbox' => 'test12313']) : 'не задано';
         }],
+        ['label' => 'Автор', 'attribute' => 'author.fullname'],
         ['attribute' => 'date'],
         ['attribute' => 'date_create'],
         [
             'class' => 'yii\grid\ActionColumn',
-            'header' => 'Кнопки действий',
+            'header' => 'Операции',
             'template' => '{delete}{view}{update}',
         ],
     ]

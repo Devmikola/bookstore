@@ -3,9 +3,11 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Exception;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "book".
@@ -22,6 +24,7 @@ use yii\db\Expression;
  */
 class Book extends \yii\db\ActiveRecord
 {
+    public $imageFile;
     /**
      * @inheritdoc
      */
@@ -41,6 +44,7 @@ class Book extends \yii\db\ActiveRecord
             [['author_id'], 'integer'],
             [['name', 'preview'], 'string', 'max' => 255],
             [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => Author::className(), 'targetAttribute' => ['author_id' => 'id']],
+            [['imageFile'], 'file', 'extensions' => 'png, jpeg, jpg'],
         ];
     }
 
@@ -54,9 +58,10 @@ class Book extends \yii\db\ActiveRecord
             'name' => 'Название',
             'date_create' => 'Дата добавления',
             'date_update' => 'Date Update',
-            'preview' => 'Изображение-превью книги',
+            'preview' => 'Ссылка на превью книги',
             'date' => 'Дата выхода',
             'author_id' => 'Автор',
+            'imageFile' => 'Изображение-превью книги'
         ];
     }
 
@@ -82,4 +87,28 @@ class Book extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Author::className(), ['id' => 'author_id']);
     }
+
+    public function uploadImageFile()
+    {
+        if ($this->validate()) {
+
+            if($this->preview)
+            {
+                Yii::$app->get('s3bucket')->delete('book_preview/' . substr($this->preview, strrpos($this->preview, '/') + 1));
+            }
+
+            if(Yii::$app->get('s3bucket')->upload('book_preview/' . $this->imageFile->baseName . '.' . $this->imageFile->extension,
+                $this->imageFile->tempName))
+            {
+                $this->preview = Yii::$app->get('s3bucket')->getUrl('book_preview/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+
+            } else {
+                throw new Exception("File was not loaded, check the logs.");
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
