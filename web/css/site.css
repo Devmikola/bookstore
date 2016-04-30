@@ -106,3 +106,7 @@ a.desc:after {
 .logout-link {
     padding-top: 14px;
 }
+
+.display_none {
+    display: none;
+}

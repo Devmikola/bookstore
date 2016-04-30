@@ -9,6 +9,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 class BookController extends Controller
 {
@@ -49,6 +50,25 @@ class BookController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        Yii::trace("\n in actionUpdate");
+        if(Yii::$app->request->isAjax)
+        {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            Yii::trace("\n request is AJAX");
+            if($model->load(Yii::$app->request->post()) && $model->validate())
+            {
+                Yii::trace("\nmodel->load succesfull");
+
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                if ($model->uploadImageFile() && $model->save()) {
+                    return ['success'];
+                }
+            } else {
+                return [$this->renderPartial('update', ['model' => $model])];
+            }
+        }
+
+
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');

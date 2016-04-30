@@ -10,7 +10,7 @@ use yii\jui\DatePicker;
 
 <div class="book-form">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['id' => $model->isNewRecord ? 'create-book-form' : 'update-book-form', 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php if($model->preview): ?>
         <?= Html::img($model->preview, ['width' => '200px', 'data-lightbox' => 'test12313']) ?>

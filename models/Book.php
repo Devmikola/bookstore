@@ -90,6 +90,11 @@ class Book extends \yii\db\ActiveRecord
 
     public function uploadImageFile()
     {
+        if(!$this->imageFile)
+        {
+            return true;
+        }
+
         if ($this->validate()) {
 
             if($this->preview)

@@ -44,7 +44,7 @@ LightBoxAsset::register($this);
     ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'search-form-field form-control'], 'clientOptions' => ['changeYear' => true]])
 ?>
 
-<?= Html::submitButton('Поиск', ['class' => 'btn btn-primary']) ?>
+<?= Html::submitButton('Поиск', ['class' => 'btn btn-primary', 'id' => 'find-book-button']) ?>
 
 <?php ActiveForm::end() ?>
 <br>
@@ -56,7 +56,7 @@ echo GridView::widget([
         ['label' => 'ID', 'attribute' => 'id'],
         ['label' => 'Название', 'attribute' => 'name'],
         ['label' => 'Обложка книги', 'format' => 'raw', 'attribute' => 'preview', 'value' => function($data){
-            return $data->preview ? Html::img($data->preview, ['width' => '100px', 'data-lightbox' => 'test12313']) : 'не задано';
+            return $data->preview ? Html::img($data->preview, ['width' => '100px']) : 'не задано';
         }],
         ['label' => 'Автор', 'attribute' => 'author.fullname'],
         ['attribute' => 'date'],
@@ -69,3 +69,100 @@ echo GridView::widget([
     ]
 ]);
 ?>
+
+<!-- Trigger the modal with a button -->
+<button id="open-modal" type="button" class="btn btn-info btn-lg display_none" data-toggle="modal" data-target="#modal-window">Open Modal</button>
+
+<!-- Modal -->
+<div id="modal-window" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', 'img', function () {
+            if($(this).attr("width"))
+            {
+                $(this).removeAttr("width");
+            } else {
+                $(this).attr("width", "100px");
+            }
+        })
+
+        $(document).on('click', 'a[aria-label="View"]', function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: 'post',
+                success: function (data) {
+                    $(".modal-body").html(data);
+                    $("#open-modal").click();
+                }
+            });
+
+            return false;
+        });
+
+        $(document).on('click', 'a[aria-label="Update"]', function () {
+            $.ajax({
+                url: $(this).attr("href"),
+                type: 'post',
+                success: function (data) {
+                    $(".modal-body").html(data);
+                    $("#open-modal").click();
+                }
+            });
+
+            return false;
+        });
+
+        $(document).on('submit', '#update-book-form', function (event) {
+            var formData = new FormData($(this)[0]);
+            console.log(formData);
+
+            event.preventDefault();
+            form = $(this);
+            if (form.find('.has-error').length) {
+                return false;
+            }
+
+            $.ajax({
+                url: form.attr('action'),
+                type: 'post',
+                data: formData,
+                success: function (data) {
+                    if (data == 'success') {
+                        $("#modal-window .close").click();
+                        $("#find-book-button").click();
+                    }
+                    else {
+                        $(".modal-body").html(data);
+//                        $(".book-form").html(data);
+//                        alert("Something goes wrong");
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+            return false;
+        });
+    })
+
+</script>
