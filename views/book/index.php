@@ -6,7 +6,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Author;
 use yii\jui\DatePicker;
-
+use \app\assets\LightBoxAsset;
+LightBoxAsset::register($this);
 ?>
 
 <h1>Книги</h1>

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Post */
 
 $this->title = 'Добавить книгу';
-$this->params['breadcrumbs'][] = ['label' => 'Book', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Книги', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-create">

@@ -61,9 +61,7 @@ $config = [
 
             ],
             'bucket' => 'bookstoreyii2',
-//            'cdnHostname' => 'http://example.cloudfront.net',
             'defaultAcl' => \frostealth\yii2\aws\s3\Storage::ACL_PUBLIC_READ,
-//            'debug' => true, // bool|array
         ],
     ],
     'params' => $params,

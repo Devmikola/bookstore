@@ -90,7 +90,7 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
-.search-form-field {
+.search-form-field, #sign-up-form {
     width: 240px;
 }
 
@@ -101,4 +101,8 @@ a.desc:after {
 
 .grid-view > .summary {
     display: none;
+}
+
+.logout-link {
+    padding-top: 14px;
 }

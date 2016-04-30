@@ -2,14 +2,31 @@
 
 namespace app\controllers;
 
+use yii\web\Controller;
 use app\models\Book;
 use app\models\SearchBookForm;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
+use yii\filters\AccessControl;
 
-class BookController extends \yii\web\Controller
+class BookController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionCreate()
     {
         $model = new Book();

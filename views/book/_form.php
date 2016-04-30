@@ -13,7 +13,7 @@ use yii\jui\DatePicker;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php if($model->preview): ?>
-        <?= Html::img($model->preview, ['width' => '200px', 'height' => "200px",'data-lightbox' => 'test12313']) ?>
+        <?= Html::img($model->preview, ['width' => '200px', 'data-lightbox' => 'test12313']) ?>
     <?php endif; ?>
 
     <?= $form->field($model, 'name') ?>
