@@ -6,6 +6,9 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\jui\DatePicker;
 
+use app\assets\AppAsset;
+
+AppAsset::register($this);
 ?>
 
 <div class="book-form">
@@ -19,7 +22,12 @@ use yii\jui\DatePicker;
     <?= $form->field($model, 'name') ?>
 
     <?= $form->field($model, 'date')->widget(DatePicker::classname(),
-        ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'form-control'], 'clientOptions' => ['changeYear' => true]]) ?>
+        [   'dateFormat' => 'yyyy-MM-dd',
+            'language' => 'ru',
+            'options' => ['class' => 'form-control'],
+            'clientOptions' => ['changeYear' => true, 'yearRange' => "-120:+0"]
+        ])
+    ?>
 
     <?php echo $form->field($model, 'author_id')->dropdownList(
         ArrayHelper::map(Author::find()->asArray()->all(),

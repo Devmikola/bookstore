@@ -58,7 +58,8 @@ $config = [
             'class' => \frostealth\yii2\aws\s3\Storage::className(),
             'region' => 'us-west-2',
             'credentials' => [ // Aws\Credentials\CredentialsInterface|array|callable
-
+                'key' => getenv("S3BUCKET-KEY"),
+                'secret' => getenv("S3BUCKET-SECRET"),
             ],
             'bucket' => 'bookstoreyii2',
             'defaultAcl' => \frostealth\yii2\aws\s3\Storage::ACL_PUBLIC_READ,

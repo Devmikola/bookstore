@@ -31,6 +31,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        if(!Yii::$app->user->isGuest) { $this->redirect(['book/']);}
         return $this->render('index');
     }
 
@@ -78,7 +79,6 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 

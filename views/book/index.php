@@ -6,8 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Author;
 use yii\jui\DatePicker;
-use \app\assets\LightBoxAsset;
-LightBoxAsset::register($this);
+
 ?>
 
 <h1>Книги</h1>
@@ -37,11 +36,11 @@ LightBoxAsset::register($this);
 <?= $form->field($model, 'name', ['options' => ['class' => 'form-group search-form-field']]) ?>
 
 <?= $form->field($model, 'date_from')->widget(DatePicker::classname(),
-    ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'search-form-field form-control'], 'clientOptions' => ['changeYear' => true]])
+    ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'search-form-field form-control'], 'clientOptions' => ['changeYear' => true, 'yearRange' => "-120:+0"]])
 ?>
 
 <?= $form->field($model, 'date_before')->widget(DatePicker::classname(),
-    ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'search-form-field form-control'], 'clientOptions' => ['changeYear' => true]])
+    ['dateFormat' => 'yyyy-MM-dd', 'options' => ['class' => 'search-form-field form-control'], 'clientOptions' => ['changeYear' => true, 'yearRange' => "-120:+0"]])
 ?>
 
 <?= Html::submitButton('Поиск', ['class' => 'btn btn-primary', 'id' => 'find-book-button']) ?>
@@ -94,6 +93,7 @@ echo GridView::widget([
     </div>
 </div>
 
+
 <script>
     $(document).ready(function() {
         $(document).on('click', 'img', function () {
@@ -111,6 +111,7 @@ echo GridView::widget([
                 type: 'post',
                 success: function (data) {
                     $(".modal-body").html(data);
+                    $(".modal-title").html("Просмотр данных");
                     $("#open-modal").click();
                 }
             });
@@ -124,6 +125,7 @@ echo GridView::widget([
                 type: 'post',
                 success: function (data) {
                     $(".modal-body").html(data);
+                    $(".modal-title").html("Редактирование данных");
                     $("#open-modal").click();
                 }
             });
@@ -152,8 +154,6 @@ echo GridView::widget([
                     }
                     else {
                         $(".modal-body").html(data);
-//                        $(".book-form").html(data);
-//                        alert("Something goes wrong");
                     }
                 },
                 cache: false,
