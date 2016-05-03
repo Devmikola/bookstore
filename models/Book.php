@@ -102,10 +102,14 @@ class Book extends \yii\db\ActiveRecord
                 Yii::$app->get('s3bucket')->delete('book_preview/' . substr($this->preview, strrpos($this->preview, '/') + 1));
             }
 
-            if(Yii::$app->get('s3bucket')->upload('book_preview/' . $this->imageFile->baseName . '.' . $this->imageFile->extension,
+            do {
+                $rand_str_filename = md5(rand(1000, 9999));
+            } while(Book::findOne(["preview like :filename", 'filename' => '%'.$rand_str_filename.'%']));
+
+            if(Yii::$app->get('s3bucket')->upload('book_preview/' .  $rand_str_filename . '.' . $this->imageFile->extension,
                 $this->imageFile->tempName))
             {
-                $this->preview = Yii::$app->get('s3bucket')->getUrl('book_preview/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+                $this->preview = Yii::$app->get('s3bucket')->getUrl('book_preview/' . $rand_str_filename .  '.' . $this->imageFile->extension);
 
             } else {
                 throw new Exception("File was not loaded, check the logs.");
