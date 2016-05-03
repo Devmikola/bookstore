@@ -10,7 +10,7 @@ if(getenv("YII_ENV") == 'prod')
     $db = substr($clearDB["path"], 1);
     $ret_arr = [
         'class' => 'yii\db\Connection',
-        'dsn' => "mysql:host=$server;dbname=$db",
+        'dsn' => "mysql:host=$server;port=".$clearDB["port"]."dbname=$db",
         'username' => $username,
         'password' => $password,
         'charset' => 'utf8',
