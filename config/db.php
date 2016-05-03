@@ -2,7 +2,7 @@
 
 if(getenv("YII_ENV") == 'prod')
 {
-    $clearDB = parse_url(getenv("CLEARDB_DATABASE_URL"));
+    $clearDB = parse_url(getenv("DATABASE_URL"));
 
     $server = $clearDB["host"];
     $username = $clearDB["user"];
